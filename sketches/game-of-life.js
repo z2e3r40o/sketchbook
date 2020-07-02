@@ -1,31 +1,4 @@
-<!doctype html>
-<html>
-    <head>
-        <title>z2e3r40o - sketch</title>
-
-        <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
-
-        <style>
-            body {
-                background-color: #221F29;
-            }
-
-            .p5Canvas {
-                /* center canvas */
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-                -webkit-transform: translate(-50%, -50%);
-
-                border: 15px solid #8E7CA2;
-            }
-        </style>
-    </head>
-
-    <body>
-        <script type='text/javascript'>
-            let w;
+let w;
 let columns;
 let rows;
 let board;
@@ -112,6 +85,3 @@ function generate() {
     board = next;
     next = temp;
 }
-        </script>
-    </body>
-</html>
