@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+body {
+    background-color: #221F29;
+}
+
+.p5Canvas {
+    /* center canvas */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+
+    border: 15px solid #8E7CA2;
+}
