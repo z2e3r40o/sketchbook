@@ -1,16 +1,13 @@
-function setup() {
-}
+let sketch = function(p) {
+    p.setup = function() {
+        // add code here
+    };
 
-function draw() {
-}
+    p.draw = function() {
+        // add code here
+    };
 
-//
-// do not remove what follows
-//
-
-var sketch = function(p5) {
-    p5.setup = setup;
-    p5.draw = draw;
+    // add code here
 };
 
-new p5(sketch, window.document.getElementById('container'));
+new p5(sketch, window.document.getElementById('sketch'));

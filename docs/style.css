@@ -1,16 +1,51 @@
 @charset "UTF-8";
 
-body {
-    background-color: #221F29;
+@font-face {
+  font-family: 'Fira Code';
+  font-style:  normal;
+  font-weight: 400;
+  src: url("https://z2e3r40o.com/assets/62da0ac51db1e4a3a4d57b9154a344fc.woff") format("woff");
 }
 
-.p5Canvas {
+body {
+    background-color: #221F29;
+    font-family: 'Fira Code', Monaco, Consolas, Ubuntu Mono, monospace;
+}
+
+.page {
     /* center canvas */
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
+}
 
+.page h1 {
+    color: #8E7CA2;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.page .ctrl {
+    background-color: #8E7CA2;
+    padding: 5px 10px 5px 10px ;
+    text-align: center;
+
+    text-decoration: none;
+    color: #221F29;
+
+    margin-top: 20px;
+}
+
+.page .next {
+    float: right;
+}
+
+.page .previous {
+    float: left;
+}
+
+.page .sketch .p5Canvas {
     border: 15px solid #8E7CA2;
 }
