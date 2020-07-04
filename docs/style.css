@@ -39,11 +39,11 @@ body {
 }
 
 .page .next {
-    float: right;
+    float: left;
 }
 
 .page .previous {
-    float: left;
+    float: right;
 }
 
 .page .sketch .p5Canvas {

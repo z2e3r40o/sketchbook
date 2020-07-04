@@ -1,23 +1,100 @@
-var WIDTH = 600;
-var HEIGHT = 400;
+let sketch = function(p) {
+    let WIDTH = 600;
+    let HEIGHT = 400;
 
-var UNIT = 10;
+    let UNIT = 20;
 
-var COLUMNS = WIDTH / UNIT;
-var ROWS = HEIGHT / UNIT;
+    let COLUMNS = WIDTH / UNIT;
+    let ROWS = HEIGHT / UNIT;
 
-function setup() {
-    createCanvas(WIDTH, HEIGHT);
-    background(255);
+    let EMPTY = 0;
 
-    fill(0);
-    strokeWeight(2);
-    stroke(255);
+    let MAX_BOX_SIZE = 5;
 
-    var size = ceil(random(5));
-    print(size);
-    square(0, 0, size * UNIT);
-}
+    function populate(grid, topx, topy, size, boxid) {
+        let bottomx = topx + size;
+        let bottomy = topy + size;
+        for (var x=topx; x<bottomx; x++) {
+            for (var y=topy; y<bottomy; y++) {
+                grid[x][y] = boxid;
+            }
+        }
+    }
 
-function draw() {
-}
+    function countempty(grid, fromx, fromy, limit) {
+        var count = 0;
+        for (var x=fromx; x<p.min(fromx+limit, COLUMNS); x++) {
+            if (grid[x][fromy] == EMPTY) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count;
+    }
+
+    function boxcolor(colors, id) {
+        if (!(id in colors)) {
+            // cluster around the grays
+            let gray = p.randomGaussian(150, 90);
+            colors[id] = p.color(gray);
+        }
+        return colors[id];
+    }
+
+    function makegrid(columns, rows) {
+        var grid = new Array(columns);
+        for (var x=0; x<columns; x++) {
+            grid[x] = new Array(rows);
+            grid[x].fill(EMPTY);
+        }
+        return grid;
+    }
+
+    function mosaic() {
+        p.createCanvas(WIDTH, HEIGHT);
+        p.noStroke();
+
+        // initialize grid memory
+        var grid = makegrid(COLUMNS, ROWS);
+
+        // populate grid
+        var boxid = 1;
+        var size = 0;
+        var colors = {};
+        for (var y=0; y<ROWS; y++) {
+            for (var x=0; x<COLUMNS; x++) {
+                if (grid[x][y] != EMPTY) {
+                    continue;
+                }
+
+                // track box
+                //
+                // before a size can be picked, it must be known which of
+                // these has the smallest value:
+                //  - max size
+                //  - the number of empty cells to the right
+                //  - the total number of cells to the right remaining
+                var emptycells = countempty(grid, x, y, MAX_BOX_SIZE);
+                var remainingcells = COLUMNS-x;
+                var factor = p.min(p.min(MAX_BOX_SIZE, emptycells), COLUMNS-x);
+                size = p.ceil(p.random(factor));
+                populate(grid, x, y, size, boxid);
+
+                // draw box
+                p.fill(boxcolor(colors, boxid));
+                p.square(x * UNIT, y * UNIT, size * UNIT);
+
+                // new box
+                boxid++;
+                // move x ahead
+                x += size-1;
+            }
+        }
+    }
+
+    p.setup = mosaic;
+    p.mousePressed = mosaic;
+};
+
+new p5(sketch, window.document.getElementById('sketch'));
