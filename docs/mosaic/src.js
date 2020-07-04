@@ -11,17 +11,16 @@ let sketch = function(p) {
 
     let MAX_BOX_SIZE = 5;
 
-    function populate(grid, topx, topy, size, boxid) {
-        let bottomx = topx + size;
-        let bottomy = topy + size;
-        for (var x=topx; x<bottomx; x++) {
-            for (var y=topy; y<bottomy; y++) {
-                grid[x][y] = boxid;
-            }
+    function makegrid(columns, rows) {
+        var grid = new Array(columns);
+        for (var x=0; x<columns; x++) {
+            grid[x] = new Array(rows);
+            grid[x].fill(EMPTY);
         }
+        return grid;
     }
 
-    function countempty(grid, fromx, fromy, limit) {
+    function lookahead(grid, fromx, fromy, limit) {
         var count = 0;
         for (var x=fromx; x<p.min(fromx+limit, COLUMNS); x++) {
             if (grid[x][fromy] == EMPTY) {
@@ -33,6 +32,16 @@ let sketch = function(p) {
         return count;
     }
 
+    function populate(grid, topx, topy, size, boxid) {
+        let bottomx = topx + size;
+        let bottomy = topy + size;
+        for (var x=topx; x<bottomx; x++) {
+            for (var y=topy; y<bottomy; y++) {
+                grid[x][y] = boxid;
+            }
+        }
+    }
+
     function boxcolor(colors, id) {
         if (!(id in colors)) {
             // cluster around the grays
@@ -40,15 +49,6 @@ let sketch = function(p) {
             colors[id] = p.color(gray);
         }
         return colors[id];
-    }
-
-    function makegrid(columns, rows) {
-        var grid = new Array(columns);
-        for (var x=0; x<columns; x++) {
-            grid[x] = new Array(rows);
-            grid[x].fill(EMPTY);
-        }
-        return grid;
     }
 
     function mosaic() {
@@ -60,7 +60,6 @@ let sketch = function(p) {
 
         // populate grid
         var boxid = 1;
-        var size = 0;
         var colors = {};
         for (var y=0; y<ROWS; y++) {
             for (var x=0; x<COLUMNS; x++) {
@@ -75,10 +74,10 @@ let sketch = function(p) {
                 //  - max size
                 //  - the number of empty cells to the right
                 //  - the total number of cells to the right remaining
-                var emptycells = countempty(grid, x, y, MAX_BOX_SIZE);
+                var emptycells = lookahead(grid, x, y, MAX_BOX_SIZE);
                 var remainingcells = COLUMNS-x;
-                var factor = p.min(p.min(MAX_BOX_SIZE, emptycells), COLUMNS-x);
-                size = p.ceil(p.random(factor));
+                var factor = p.min(emptycells, COLUMNS-x);
+                var size = p.ceil(p.random(factor));
                 populate(grid, x, y, size, boxid);
 
                 // draw box
