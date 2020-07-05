@@ -21,15 +21,23 @@ let sketch = function(p) {
     }
 
     function lookahead(grid, fromx, fromy, limit) {
-        var count = 0;
+        var countx = 0;
+        var county = 0;
         for (var x=fromx; x<p.min(fromx+limit, COLUMNS); x++) {
             if (grid[x][fromy] == EMPTY) {
-                count++;
+                countx++;
             } else {
                 break;
             }
         }
-        return count;
+        for (var y=fromy; y<p.min(fromy+limit, ROWS); y++) {
+            if (grid[fromx][y] == EMPTY) {
+                county++;
+            } else {
+                break;
+            }
+        }
+        return p.min(countx, county);
     }
 
     function populate(grid, topx, topy, size, boxid) {
