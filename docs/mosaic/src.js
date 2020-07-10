@@ -81,10 +81,9 @@ let sketch = function(p) {
                 // these has the smallest value:
                 //  - max size
                 //  - the number of empty cells to the right
-                //  - the total number of cells to the right remaining
+                //  - the total number of cells remaining to the right and below
                 var emptycells = lookahead(grid, x, y, MAX_BOX_SIZE);
-                var remainingcells = COLUMNS-x;
-                var factor = p.min(emptycells, COLUMNS-x);
+                var factor = p.min(emptycells, COLUMNS-x, ROWS-y);
                 var size = p.ceil(p.random(factor));
                 populate(grid, x, y, size, boxid);
 
