@@ -1,6 +1,6 @@
 let sketch = function(p) {
-    let WIDTH = 600;
-    let HEIGHT = 400;
+    let WIDTH = 1000;
+    let HEIGHT = 600;
 
     let UNIT = 20;
 
